@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Espejito Espejito</title>
+<script>
+    navigator.getUserMedia = (navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia );
+    if (navigator.getUserMedia)
+    {
+        navigator.getUserMedia(
+            {
+                video:true,
+                audio:false
+            },
+            function(stream) { /* do-say something */ },
+            function(error) { alert('Something went wrong. (error code ' + error.code + ')');
+                return; }
+        );
+    }
+    else {
+        alert("Sorry, the browser you are using doesn't support the HTML5 webcam API");
+    }
+</script>
+</head>
+<body>
+  <link href="https://fonts.googleapis.com/css?family=Mouse+Memoirs" rel="stylesheet">
+<style>
+  body
+  {
+    width: 100%;
+max-height: 100%;
+background-image: url("https://pre00.deviantart.net/0fe9/th/pre/i/2012/250/f/c/background__2_old_castle_by_proenix-d5ds06s.png");
+background-repeat: no-repeat;
+background-size: 100%; //propotional resize
+  }
+  h1
+  {
+    font-family: 'Mouse Memoirs', sans-serif;
+    font-size: 5em;
+    color: #DAA520;
+    text-align: center;
+  }
+  .camcontent{
+    width: 640px;
+    height: 480px;
+    margin: auto;
+    border: 10px solid
+  }
+  .cambuttons
+  {text-align: center;}
+  .btn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #DAA520;
+  font-size: 20px;
+  background: #a24aaa;
+  padding: 10px 20px 10px 20px;
+  border: solid #DAA520 2px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #873e8e;
+  background-image: -webkit-linear-gradient(top, #873e8e, #642f6a);
+  background-image: -moz-linear-gradient(top, #873e8e, #642f6a);
+  background-image: -ms-linear-gradient(top, #873e8e, #642f6a);
+  background-image: -o-linear-gradient(top, #873e8e, #642f6a);
+  background-image: linear-gradient(to bottom, #873e8e, #642f6a);
+  text-decoration: none;
+}
+#uploading
+{
+  font-size:15px;
+  color: #DAA520;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+    // Put event listeners into place
+    window.addEventListener("DOMContentLoaded", function() {
+        // Grab elements, create settings, etc.
+        var canvas = document.getElementById("canvas"),
+            context = canvas.getContext("2d"),
+            video = document.getElementById("video"),
+            videoObj = { "video": true },
+            image_format= "jpeg",
+            jpeg_quality= 85,
+            errBack = function(error) {
+                console.log("Video capture error: ", error.code);
+            };
+
+
+        // Put video listeners into place
+        if(navigator.getUserMedia) { // Standard
+            navigator.getUserMedia(videoObj, function(stream) {
+                //video.src = stream;
+                video.srcObject = stream;
+                video.play();
+                $("#snap").show();
+            }, errBack);
+        } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+            navigator.webkitGetUserMedia(videoObj, function(stream){
+                video.src = window.webkitURL.createObjectURL(stream);
+                video.play();
+                $("#snap").show();
+            }, errBack);
+        } else if(navigator.mozGetUserMedia) { // moz-prefixed
+            navigator.mozGetUserMedia(videoObj, function(stream){
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+                $("#snap").show();
+            }, errBack);
+        }
+        // video.play();       these 2 lines must be repeated above 3 times
+        // $("#snap").show();  rather than here once, to keep "capture" hidden
+        //                     until after the webcam has been activated.
+
+        // Get-Save Snapshot - image
+        document.getElementById("snap").addEventListener("click", function() {
+          Snap();
+          Upload();
+          Reset();
+        });
+        function Snap()
+        {
+          context.drawImage(video, 0, 0, 640, 480);
+          // the fade only works on firefox?
+          $("#video").hide();
+          $("#canvas").show();
+          $("#snap").hide();
+        }
+        function Reset() {
+            $("#video").show();
+            $("#canvas").hide();
+            $("#snap").show();
+
+        }
+        // Upload image to sever
+        function Upload(){
+            var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+            $("#uploading").show();
+            $.ajax({
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		    },
+
+		type: "POST",
+		cache: false,
+    		contentType: false,
+    		processData: false,
+                url: "https://8l9ks20rj8.execute-api.us-east-1.amazonaws.com/prod/up",
+                data: dataUrl
+        }).done(function(msg) {
+                if(msg['body'])
+                {
+                  alert("Soy afortunado de poder presenciar tu belleza. BTW hola!!");
+                }
+                else {
+                  var answers = ["No se si es una cara o un dibujo abstracto", "Por dios!!!! Me sangran los ojos",
+                  "AHHHHHHHHHH!!!!!!!!! es como ver un clon de @DJ... matenme","Te puedo recomendar un buen cirujano plastico, no hace milagros pero no creo que te deje peor de lo que estas",
+                  "Tu madre te quiere solo como amigo","Tus viejos te presentan como la mascota que recogieron de la calle"];
+                  alert(answers[Math.floor(Math.random()*answers.length)]);
+                }
+                $("#uploading").hide();
+            }).fail(function() {
+                alert( "no encuentro una cara.... "   );
+              });
+        }
+    });
+
+</script>
+
+<h1>Espejito Espejito</h1>
+<div class="camcontent">
+    <video id="video" width="640" height="480" autoplay></video>
+    <canvas id="canvas" width="640" height="480" style="visibility: hidden;"> </canvas>
+</div>
+<div class="cambuttons">
+    <button id="snap" class="btn"  style="display:none;">  Dime que tan bello soy </button>
+    <br> <span id=uploading style="display:none;"> Preguntando . . .  </span>
+</div>
+</body>
+</html>
