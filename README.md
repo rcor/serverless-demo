@@ -45,6 +45,7 @@ Agregar las siguientes *Environment variables*
 ### SlackNotificationLambda
 Copiar el contenido del archivo notification/lambda_function.py dentro del editor de texto. 
 Agregar las siguientes *Environment variables*
+
 | Variables | Valor  |
 |-----------|---------------------------------------------------------------------------------------|
 | webhook | el webhook obtenido por [Incomming Webhooks](https://api.slack.com/incoming-webhooks) |
