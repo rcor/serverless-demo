@@ -34,12 +34,13 @@ Las funciones deben de tener las siguientes caracteristicas
 ### UploadToS3Lambda
 Copiar el contenido del archivo uploadToS3/lambda_function.py dentro del editor de texto. 
 Agregar las siguientes *Environment variables*
-Variables | Valor
------------- | -------------
-BucketConMiCara | nombre_cara  ( bucket donde vamos a poner nuestra foto)
-bucketDestino | nombre_destino ( Donde vamos a guardar las fotos que se suben)
-persona| selfie.jpg ( foto con la que vamos a comparar)
-region| deberiamos trabajando en **us-east-1** (Region donde estamos trabajando)
+
+| Variables | Valor  |
+|-----------------|--------------------------------------------------------------------------|
+| BucketConMiCara | nombre_cara  ( bucket donde vamos a poner nuestra foto) |
+| bucketDestino | nombre_destino ( Donde vamos a guardar las fotos que se suben) |
+| persona | selfie.jpg ( foto con la que vamos a comparar) |
+| region | deberiamos trabajando en **us-east-1** (Region donde estamos trabajando) |
 
 ### SlackNotificationLambda
 Copiar el contenido del archivo notification/lambda_function.py dentro del editor de texto. 
