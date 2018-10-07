@@ -25,11 +25,14 @@ def lambda_handler(event, context):
     message=event['Records'][0]['Sns']['Message']
     messageJson=json.loads(message)
     eventName=messageJson['Records'][0]['eventName']
+    url="https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/40/3200x4799/labrador-retriever.jpg"
     messageR=''
+    url="https://hips.hearstapps.com/ghk.h-cdn.co/assets/17/40/3200x4799/labrador-retriever.jpg"
     if (eventName=="ObjectCreated:Put"):
         bucketName=messageJson['Records'][0]['s3']['bucket']['name']
         key=messageJson['Records'][0]['s3']['object']['key']
         messageR += "Object:"+key
+        url="http://"+bucketName+".s3-website-"+os.environ['region']+".amazonaws.com/"+key
         for face in detect_faces(bucketName, key):
         	messageR += "\nFace ({Confidence}%)".format(**face)
         	# emotions
@@ -41,18 +44,18 @@ def lambda_handler(event, context):
             
         
         postData = {
-            'channel': '#general',
+            'channel': os.environ['canal'],
             'username': 'SNS ',
-            'text': '*' +subject +'* :bug:',
+            'text': '*' + os.environ['nombre'] +'* :bug:',
             'icon_emoji': ':bug:',
             'attachments':[
                 {
                     'color': 'warning',
-                    'text': messageR
+                    'text': messageR,
+                    'image_url':url
                 }
             ]
         };
         url=os.environ['webhook']
         r = requests.post(url,json=postData,headers={'Content-Type': 'application/json'})
         print(r.status_code, r.reason)
-
