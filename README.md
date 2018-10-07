@@ -130,5 +130,34 @@ Vamos a crear 3 buckets en la misma region (cambiar nombre por SU nombre ej )
  ```
 
 ## API Gateway
+* Ahora vamos al servicio de *Api Gateway* y creamos un nuevo API
+![crear api](https://content.screencast.com/users/rcor_cr/folders/Jing/media/e6eb2aba-10ec-46cc-9148-87df8cc403b0/2018-10-06_2300.png)
+* Creamos un metodo de tipo post y asociamos el Lambda que hemos creado *UploadToS3Lambda* al metodo
+![Asociar lambda](https://content.screencast.com/users/rcor_cr/folders/Jing/media/06462a5b-8629-4af2-b808-add72d8a0356/2018-10-06_2301.png)
+
+* Habilitamos el CORS para evitar problemas de dominio 
+![enable cors](https://content.screencast.com/users/rcor_cr/folders/Jing/media/23688726-2e2f-40ed-9305-2768cbb96062/2018-10-06_2304.png)
+
+* Ahora deployamos el api, vamos a crear un stage en el proceso
+![Deploy](https://content.screencast.com/users/rcor_cr/folders/Jing/media/fff15b0a-14c8-433d-9a1e-cd5d0516d2d9/2018-10-06_2305.png)
+
+* Con esto tenemos la URL del api gateway
+![Api gateway](https://content.screencast.com/users/rcor_cr/folders/Jing/media/66776665-e101-4d06-9b25-13fbd8b06627/2018-10-06_2310.png)
+
+Modificamos la linea 158 del archivo front/index.html con el endpoint
 ## Cloudfront
+
+Ahora subimos el archivo index.html al bucket *nombre_website*. Despues vamos a crear la distribucion 
+![Crear distribucion](https://content.screencast.com/users/rcor_cr/folders/Jing/media/3a4b9a3f-c90b-4e6a-b252-ec5c86a41407/2018-10-06_2314.png)
+
+Seleccionamos el origen del CDN
+![](https://content.screencast.com/users/rcor_cr/folders/Jing/media/9469eb00-2581-45e2-8b05-ed2deb9c5198/2018-10-06_2315.png)
+
+Ponemos el archivo index.html para que rediriga 
+![](https://content.screencast.com/users/rcor_cr/folders/Jing/media/2ae2db11-0996-46ff-971f-79d1098f810d/2018-10-06_2317.png)
+
+Cuando hemos terminado estos pasos, va a tardar un par de minutos en deployar y vamos a tener un sitio hospeado en s3 con cloudfront
+
+En el panel de cloudfront vamos a tener la URL por la cual vamos a acceder a probar 
+
 
