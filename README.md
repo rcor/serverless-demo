@@ -45,12 +45,12 @@ Agregar las siguientes *Environment variables*
 ### SlackNotificationLambda
 Copiar el contenido del archivo notification/lambda_function.py dentro del editor de texto. 
 Agregar las siguientes *Environment variables*
-Variables | Valor
------------- | -------------
-region|deberiamos trabajando en **us-east-1** (Region donde estamos trabajando)
-nombre| nuestro nombre
-canal| canal donde vamos a publicar
-webhook| el webhook obtenido por [Incomming Webhooks](https://api.slack.com/incoming-webhooks) 
+|Variables | Valor|
+|------------ | -------------|
+|region|deberiamos trabajando en **us-east-1** (Region donde estamos trabajando)|
+|nombre| nuestro nombre|
+|canal| canal donde vamos a publicar|
+|webhook| el webhook obtenido por [Incomming Webhooks](https://api.slack.com/incoming-webhooks) |
 
 ## SNS
 El siguiente paso, es crear un topic dentro del servicio SNS con el nombre de **SlackNotification**
