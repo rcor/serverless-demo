@@ -37,8 +37,8 @@ Agregar las siguientes *Environment variables*
 
 | Variables | Valor  |
 |-----------------|--------------------------------------------------------------------------|
-| BucketConMiCara | nombre_cara  ( bucket donde vamos a poner nuestra foto) |
-| bucketDestino | nombre_destino ( Donde vamos a guardar las fotos que se suben) |
+| BucketConMiCara | nombre.cara  ( bucket donde vamos a poner nuestra foto) |
+| bucketDestino | nombre.destino ( Donde vamos a guardar las fotos que se suben) |
 | persona | selfie.jpg ( foto con la que vamos a comparar) |
 | region | deberiamos trabajando en **us-east-1** (Region donde estamos trabajando) |
 
@@ -75,7 +75,7 @@ Se debe tener cuidado al modificar este json
       "Resource": "[ARN DEL TOPICO]",
       "Condition": {
         "StringEquals": {
-          "aws:SourceArn": "arn:aws:s3:::nombre_destino"
+          "aws:SourceArn": "arn:aws:s3:::nombre.destino"
         }
       }
 }
@@ -83,7 +83,7 @@ Se debe tener cuidado al modificar este json
 
 ## Buckets
 Vamos a crear 3 buckets en la misma region (cambiar nombre por SU nombre ej )
-* nombre_destino (ejemplo juliobarboza_destino)
+* nombre.destino (ejemplo juliobarboza_destino)
   * Dentro del bucket vamos al tab *properties* y lo habilitamos como *Static website hosting*
 ![bucket website](https://content.screencast.com/users/rcor_cr/folders/Jing/media/6254c2af-0cd4-4832-bd4b-45b173face60/2018-10-06_2206.png)
   * Dentro del tab *Permissions* -> * Bucket policy * agregamos el siguiente permiso
@@ -97,7 +97,7 @@ Vamos a crear 3 buckets en la misma region (cambiar nombre por SU nombre ej )
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::nombre_destino/*"
+            "Resource": "arn:aws:s3:::nombre.destino/*"
         }
     ]
 }
@@ -108,8 +108,8 @@ Vamos a crear 3 buckets en la misma region (cambiar nombre por SU nombre ej )
  
 
 
-* nombre_cara (ejemplo juliobarboza_cara)
-* nombre_website (ejemplo juliobarboza_website)
+* nombre.cara (ejemplo juliobarboza_cara)
+* nombre.website (ejemplo juliobarboza_website)
   * Dentro del bucket vamos al tab *properties* y lo habilitamos como *Static website hosting*
 ![bucket website](https://content.screencast.com/users/rcor_cr/folders/Jing/media/6254c2af-0cd4-4832-bd4b-45b173face60/2018-10-06_2206.png)
   * Dentro del tab *Permissions* -> * Bucket policy * agregamos el siguiente permiso
@@ -123,7 +123,7 @@ Vamos a crear 3 buckets en la misma region (cambiar nombre por SU nombre ej )
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::nombre_destino/*"
+            "Resource": "arn:aws:s3:::nombre.destino/*"
         }
     ]
 }
